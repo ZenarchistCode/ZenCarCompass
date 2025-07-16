@@ -44,18 +44,35 @@ modded class CarScript
 		if (!item || !item.IsInherited(ItemCompass))
 			return;
 
+		int i;
 		bool cfgFound = false;
 		vector offsetPos;
 		vector offsetOri;
 
-		for (int i = 0; i < GetZenCarCompassConfig().CarConfig.Count(); i++)
+		// Look for EXACT classname match first (as some modded cars inherit from vanilla scripts, but have different models)
+		for (i = 0; i < GetZenCarCompassConfig().CarConfig.Count(); i++)
 		{
-			if (this.IsKindOf(GetZenCarCompassConfig().CarConfig.Get(i).CarType))
+			if (this.GetType() == GetZenCarCompassConfig().CarConfig.Get(i).CarType)
 			{
 				cfgFound = true;
 				offsetPos = GetZenCarCompassConfig().CarConfig.Get(i).Position;
 				offsetOri = GetZenCarCompassConfig().CarConfig.Get(i).Orientation;
 				break;
+			}
+		}
+
+		// If not found, look for inherited child classnames
+		if (!cfgFound)
+		{
+			for (i = 0; i < GetZenCarCompassConfig().CarConfig.Count(); i++)
+			{
+				if (this.IsKindOf(GetZenCarCompassConfig().CarConfig.Get(i).CarType))
+				{
+					cfgFound = true;
+					offsetPos = GetZenCarCompassConfig().CarConfig.Get(i).Position;
+					offsetOri = GetZenCarCompassConfig().CarConfig.Get(i).Orientation;
+					break;
+				}
 			}
 		}
 
