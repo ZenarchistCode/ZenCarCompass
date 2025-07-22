@@ -45,14 +45,4 @@ class ZenCarCompass extends Compass
 	{
 		return true;
 	}
-
-	override void OnItemLocationChanged(EntityAI old_owner, EntityAI new_owner)
-	{ 
-		super.OnItemLocationChanged(old_owner, new_owner);
-
-		if (!new_owner || !new_owner.IsInherited(CarScript))
-		{
-			DeleteSafe();
-		}
-	}
 }
