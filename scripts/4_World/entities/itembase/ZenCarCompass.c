@@ -7,11 +7,12 @@ class ZenCarCompass extends Compass
 		// Item is scope=1 so this shouldn't be persistent, but in case I'm wrong, 
 		// delete it after restarts as EEItemAttached() creates a new one in CarScript.
 		DeleteSafe();
-		SetTakeable(false);
 	}
 
-	void ZenCarCompass()
+	override void DeferredInit()
 	{
+		super.DeferredInit();
+
 		SetAllowDamage(false);
 	}
 
@@ -38,5 +39,20 @@ class ZenCarCompass extends Compass
 	override bool IsTakeable()
 	{
 		return false;
+	}
+
+	override bool DisableVicinityIcon()
+	{
+		return true;
+	}
+
+	override void OnItemLocationChanged(EntityAI old_owner, EntityAI new_owner)
+	{ 
+		super.OnItemLocationChanged(old_owner, new_owner);
+
+		if (!new_owner || !new_owner.IsInherited(CarScript))
+		{
+			DeleteSafe();
+		}
 	}
 }

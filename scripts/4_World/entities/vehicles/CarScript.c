@@ -113,6 +113,9 @@ modded class CarScript
 
 	void DeleteZenCompass(EntityAI item)
 	{
+		if (!m_ZenCompassDashboard)
+			return;
+
 		this.RemoveChild(m_ZenCompassDashboard);
 		m_ZenCompassDashboard.DeleteSafe();
 		m_ZenCompassDashboard = NULL;
